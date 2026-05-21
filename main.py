@@ -53,12 +53,12 @@ def print_results(results: list) -> None:
 
 
 if __name__ == "__main__":
-    matches = load_matches(DB_PATH)
-    print(f"Loaded {len(matches):,} matches  "
-          f"({matches['Date'].min().date()} -> {matches['Date'].max().date()})")
-
-    matches.to_csv(CSV_PATH, index=False)
-    print(f"Saved   -> {CSV_PATH}")
+    #matches = load_matches(DB_PATH)
+    #print(f"Loaded {len(matches):,} matches  "
+    #      f"({matches['Date'].min().date()} -> {matches['Date'].max().date()})")
+#
+    #matches.to_csv(CSV_PATH, index=False)
+    #print(f"Saved   -> {CSV_PATH}")
 
     featured, train, predict = build_features(CSV_PATH)
     results                  = run_models(train, predict)
