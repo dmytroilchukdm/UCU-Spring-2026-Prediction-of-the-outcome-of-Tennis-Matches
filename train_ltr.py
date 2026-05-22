@@ -127,6 +127,7 @@ def train_pointwise(train_df: pd.DataFrame, test_df: pd.DataFrame) -> dict:
     model = lgb.train(params, dtrain, num_boost_round=500,
                       valid_sets=[dtrain, dtest], valid_names=["train", "test"],
                       callbacks=CALLBACKS)
+    model.save_model("model_pointwise.txt")
     return evaluate_pointwise("Pointwise", model, test_df)
 
 
@@ -162,6 +163,7 @@ def train_pairwise(train_df: pd.DataFrame, test_df: pd.DataFrame) -> dict:
     model = lgb.train(params, dtrain, num_boost_round=500,
                       valid_sets=[dtrain, dtest], valid_names=["train", "test"],
                       callbacks=CALLBACKS)
+    model.save_model("model_pairwise.txt")
     return evaluate_lgb("Pairwise", model, test_df)
 
 
@@ -197,4 +199,5 @@ def train_lambdarank(train_df: pd.DataFrame, test_df: pd.DataFrame) -> dict:
     model = lgb.train(params, dtrain, num_boost_round=500,
                       valid_sets=[dtrain, dtest], valid_names=["train", "test"],
                       callbacks=CALLBACKS)
+    model.save_model("model_lambdarank.txt")
     return evaluate_lgb("LambdaRank", model, test_df)

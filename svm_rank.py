@@ -2,6 +2,7 @@
 
 import numpy as np
 import pandas as pd
+import joblib
 from sklearn.svm import LinearSVC
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import roc_auc_score
@@ -105,8 +106,10 @@ def _fit_svm(X_train: np.ndarray, y_train: np.ndarray):
     return svm, scaler
 
 
-def evaluate_svm(train_df: pd.DataFrame, val_df: pd.DataFrame) -> dict:
-    """Train SVM on train_df, evaluate on val_df, return result dict."""
+def evaluate_svm(train_df: pd.DataFrame, val_df: pd.DataFrame,
+                 model_path: str = "svm_rank.pkl",
+                 scaler_path: str = "scaler.pkl") -> dict:
+    """Train SVM on train_df, evaluate on val_df, save model, return result dict."""
     train_pairs = build_pairs(train_df)
     val_pairs   = build_pairs(val_df)
 
@@ -116,6 +119,8 @@ def evaluate_svm(train_df: pd.DataFrame, val_df: pd.DataFrame) -> dict:
     y_val   = val_pairs["label"].values
 
     svm, scaler = _fit_svm(X_train, y_train)
+    joblib.dump(svm, model_path)
+    joblib.dump(scaler, scaler_path)
 
     # AUC — pair level (standard, invariant to match/pair choice)
     y_bin  = (y_val == 1).astype(int)
